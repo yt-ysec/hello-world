@@ -1,0 +1,25 @@
+  <div id="txt">div</div>
+
+  <div><button onclick="hello()">click me</button></div>
+
+  <script>
+    window.addEventListener("deviceorientation", orientation, true);
+
+    function orientation(event) {
+      let alpha = event.alpha;
+      let beta = event.beta;
+      let gamma = event.gamma;
+
+      const kekka = alpha + " : " + beta + " : " + gamma;
+
+      var txt = document.getElementById("txt");
+      txt.innerHTML = "ALOHA";
+    }
+
+    function hello() {
+      var txt = document.getElementById("txt");
+      txt.innerHTML = "ALOHA";
+    }
+
+    console.log("done.");
+  </script>
