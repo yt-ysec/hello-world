@@ -7,6 +7,8 @@
 	window.addEventListener( 'deviceorientation', deviceorientationHandler )
 
 	function deviceorientationHandler( event ) {
+		alert('deviceorientationHandler!')
+
 		const beta = event.beta
 		const gamma = event.gamma
 		const alpha = event.alpha
