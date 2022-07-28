@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+  	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>apptest3: drawing</title>
+  </head>
+  <body>
+    <input id="chooser" type="file" accept="image/*">
+    <canvas id="canvas" width='300' height='400'></canvas>
+    <input id="color" type="color" value="#000000">
+    <button id="btn">save(new tab)</button>
+
+    <script type="text/javascript">
+      var touching = false;
+      var startX = 0;
+      var startY = 0;
+      var penColor = "#000000";
+      var penWidth = 5;
+
+      var canvas = document.getElementById("canvas");
+      var context = canvas.getContext("2d");
+
+      var chooser = document.getElementById("chooser");
+      var reader = new FileReader();
+      var image = new Image();
+
+      chooser.addEventListener("change", () => {
+        var file = chooser.files[0];
+        reader.readAsDataURL(file);
+      });
+
+      reader.addEventListener("load", () => {
+        image.src = reader.result;
+      });
+
+      image.addEventListener("load", () => {
+        context.drawImage(image, 0, 0, 300, 400);
+      });
+
+      canvas.addEventListener("touchstart", (e) => {
+        touching = true;
+
+        startX = e.touches[0].pageX - canvas.offsetLeft;
+        startY = e.touches[0].pageY - canvas.offsetTop;
+      });
+
+      canvas.addEventListener("touchmove", (e) => {
+        e.preventDefault();
+          if( touching == true ) {
+          var endX = e.touches[0].pageX - canvas.offsetLeft;
+          var endY = e.touches[0].pageY - canvas.offsetTop;
+
+          context.strokeStyle = penColor;
+          context.lineWidth = penWidth;
+          context.lineCap = "round";
+
+          context.beginPath();
+          context.moveTo(startX, startY);
+          context.lineTo(endX, endY);
+          context.stroke();
+
+          startX = endX;
+          startY = endY;
+        }
+      });
+
+      canvas.addEventListener("touchend", (e) => {
+        touching = false;
+      });
+
+      var color = document.getElementById("color");
+      color.addEventListener("change", () => {
+        penColor = color.value;
+      });
+
+      var button = document.getElementById("btn");
+      button.addEventListener("click", () => {
+        var saveWindow = window.open();
+        var doc = saveWindow.document;
+        var newImg = doc.createElement("img");
+        newImg.src = canvas.toDataURL();
+        doc.body.appendChild(newImg);
+        var newDiv = doc.createElement("div");
+        newDiv.innerHTML = "long tap to save img";
+        doc.body.appendChild(newDiv);
+      });
+    </script>
+  </body>
+</html>
