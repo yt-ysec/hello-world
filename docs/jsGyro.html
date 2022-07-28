@@ -1,0 +1,19 @@
+<h1>js: gyro</h1>
+
+<p id="kekka"></p>
+
+
+<script type="text/javascript">
+	window.addEventListener( 'deviceorientation', deviceorientationHandler )
+
+	function deviceorientationHandler( event ) {
+		const beta = event.beta
+		const gamma = event.gamma
+		const alpha = event.alpha
+
+		const kekka = document.getElementById('kekka')
+		kekka.innerHTML += 'beta: ' + beta + '<br>' +
+							'gamma: ' + gamma + '<br>' +
+							'alpha: ' + alpha
+	}
+</script>
